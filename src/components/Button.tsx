@@ -3,6 +3,7 @@ import glamorous from 'glamorous';
 
 const Container = glamorous.button({
   backgroundColor: '#FFF',
+  cursor: 'pointer',
   height: '42px',
   width: '120px',
   borderRadius: '8px',

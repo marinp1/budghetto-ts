@@ -24,8 +24,10 @@ const Container = glamorous.div({
 const Title = glamorous.h1({
   fontSize: '40px',
   marginBottom: '40px',
+  letterSpacing: '10px',
   [mediaQueries.small]: {
     fontSize: '60px',
+    letterSpacing: '8px',
   }
 })
 
