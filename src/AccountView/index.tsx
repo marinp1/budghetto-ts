@@ -12,12 +12,14 @@ interface AccountViewState {
 }
 
 const Bar = glamorous.div({
-  width: '10px',
+  width: '20px',
   height: '100%',
   display: 'inline-block',
-  background: '#FFF',
   position: 'absolute',
   top: 0,
+  left: 0,
+  borderTopLeftRadius: 'inherit',
+  borderBottomLeftRadius: 'inherit',
 })
 
 const CenteredFlexbox = glamorous.div({
@@ -28,7 +30,7 @@ const CenteredFlexbox = glamorous.div({
   position: 'absolute',
   top: 0,
   right: 0,
-  marginRight: '30px',
+  marginRight: '20px',
 })
 
 export interface TileProps {
@@ -41,6 +43,10 @@ export interface TileProps {
 
 export class Tile extends React.Component<TileProps, {}> {
   render() {
+
+    const fontColour = '#333';
+    const backgroundColor = '#FFF';
+    const barColour = this.props.colour;
     
     let classNames = "column ";
     if (this.props.screenWidth >= breakpoints.widescreen) {
@@ -55,14 +61,14 @@ export class Tile extends React.Component<TileProps, {}> {
 
     return (
       <div className={classNames}>
-        <div className="box" style={{background: this.props.colour, position: 'relative'}}>
-          <Bar></Bar>
-          <div style={{display: 'inline-block', marginLeft: '30px'}}>
-            <h4 className="title is-5" style={{color: '#FFF'}}>{this.props.accountName}</h4>
-            <h6 className="subtitle is-6" style={{color: '#FFF'}}>{this.props.bankName}</h6>
+        <div className="box" style={{background: backgroundColor, position: 'relative'}}>
+          <Bar style={{background: barColour}}></Bar>
+          <div style={{display: 'inline-block', marginLeft: '20px'}}>
+            <h4 className="title is-5" style={{color: fontColour}}>{this.props.accountName}</h4>
+            <h6 className="subtitle is-6" style={{color: fontColour}}>{this.props.bankName}</h6>
           </div>
           <CenteredFlexbox>
-            <h4 className="title is-4" style={{color: '#FFF'}}>{this.props.balance}</h4>
+            <h4 className="title is-4" style={{color: fontColour}}>{this.props.balance}</h4>
           </CenteredFlexbox>
         </div>
       </div>
