@@ -87,4 +87,11 @@ export class ObservableAccountStore {
       this.selectedAccount = account;
     }
   }
+
+  editAccount(account: Account, newData: AccountProps) {
+    account.bankName = newData.bankName;
+    account.accountName = newData.accountName;
+    account.colour = newData.colour;
+    account.balance = newData.balance;
+  }
 }
