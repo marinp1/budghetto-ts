@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { observer } from 'mobx-react';
-import { SketchPicker } from 'react-color';
+import { SketchPicker, ColorResult } from 'react-color';
 import { Account, AccountProps, ObservableAccountStore} from './AccountStore';
 
 @observer
@@ -8,6 +8,7 @@ class AccountEditModal extends React.Component
   <{accountStore: ObservableAccountStore}, {colorPickerVisible: boolean}> {
 
   data: null | AccountProps = null;
+  newColor: string;
   colorPickerVisible: false;
 
   constructor(props: {accountStore: ObservableAccountStore}) {
@@ -17,23 +18,27 @@ class AccountEditModal extends React.Component
     }
   }
 
+  handleChangeComplete = (color: ColorResult) => {
+    this.newColor = color.hex;
+  };
+
+  componentWillUpdate() {
+    if (this.data === null && this.props.accountStore.getSelectedAccount !== null) {
+      this.data = {
+        id: this.props.accountStore.getSelectedAccount.id,
+        balance: this.props.accountStore.getSelectedAccount.balance,
+        accountName: this.props.accountStore.getSelectedAccount.accountName,
+        bankName: this.props.accountStore.getSelectedAccount.bankName,
+        colour: this.props.accountStore.getSelectedAccount.colour,
+      }
+    }
+  }
+
   render() {
 
-    if (this.props.accountStore.selectedAccount === null) {
+    if (this.props.accountStore.selectedAccount === null || this.data === null) {
       return null;
     }
-
-    const account = this.props.accountStore.selectedAccount as Account;
-
-    this.data = {
-      id: account.id,
-      balance: account.balance,
-      accountName: account.accountName,
-      bankName: account.bankName,
-      colour: account.colour,
-    }
-
-    const data = this.data as AccountProps;
 
     const colorPickerVisible = this.state.colorPickerVisible ? "modal is-active" : "modal";
     
@@ -43,7 +48,7 @@ class AccountEditModal extends React.Component
         <div className="modal-background"></div>
         <div className="modal-card">
           <header className="modal-card-head">
-            <p className="modal-card-title">Modal title</p>
+            <p className="modal-card-title">Edit account</p>
             <button className="delete" aria-label="close"></button>
           </header>
           <section className="modal-card-body">
@@ -51,7 +56,7 @@ class AccountEditModal extends React.Component
               <div className="field">
                 <label className="label">Bank name</label>
                 <div className="control has-icons-left has-icons-right">
-                  <input className="input is-success" type="text" placeholder="Bank name" value={data.bankName}/>
+                  <input className="input is-success" type="text" placeholder="Bank name" defaultValue={this.data.bankName}/>
                   <span className="icon is-small is-left">
                     <i className="fa fa-university"></i>
                   </span>
@@ -63,7 +68,7 @@ class AccountEditModal extends React.Component
               <div className="field">
                 <label className="label">Account name</label>
                 <div className="control has-icons-left has-icons-right">
-                  <input className="input is-success" type="text" placeholder="Account name" value={data.accountName}/>
+                  <input className="input is-success" type="text" placeholder="Account name" defaultValue={this.data.accountName}/>
                   <span className="icon is-small is-left">
                     <i className="fa fa-credit-card"></i>
                   </span>
@@ -76,13 +81,13 @@ class AccountEditModal extends React.Component
                 <label className="label">Account colour</label>
                 <div className="control has-icons-left has-addons has-icons-right">
                   <input readOnly={true} className="input is-success" type="text" placeholder="Account colour"
-                   value={data.colour}
+                   value={this.data.colour}
                    style={{cursor: 'pointer', background: '#FFF'}}
                    onClick={() => this.toggleColourPicker(true)}/>
                   <span className="icon is-small is-left">
                     <i className="fa fa-paint-brush"></i>
                   </span>
-                  <span className="icon is-small is-right" style={{borderRadius: '0 3px 3px 0', background: data.colour}}/>
+                  <span className="icon is-small is-right" style={{borderRadius: '0 3px 3px 0', background: this.data.colour}}/>
                 </div>
               </div>
             </div>
@@ -96,15 +101,14 @@ class AccountEditModal extends React.Component
       <div className={colorPickerVisible}>
         <div className="modal-background"></div>
         <div className="modal-card" style={{width: "auto"}}>
-          <header className="modal-card-head">
-            <p className="modal-card-title">Modal title</p>
-            <button className="delete" aria-label="close"></button>
-          </header>
-          <section className="modal-card-body">
-            <SketchPicker />
+          <section className="modal-card-head">
+            <SketchPicker
+              color={ this.data.colour }
+              onChangeComplete={ this.handleChangeComplete }
+            />
           </section>
           <footer className="modal-card-foot">
-            <button className="button is-success">Save changes</button>
+            <button className="button is-success" onClick={() => this.toggleColourPicker(false, true)}>Apply</button>
             <button className="button" onClick={() => this.toggleColourPicker(false)}>Cancel</button>
           </footer>
         </div>
@@ -113,7 +117,10 @@ class AccountEditModal extends React.Component
     );
   }
 
-  toggleColourPicker(visibility: boolean) {
+  toggleColourPicker(visibility: boolean, save: boolean = false) {
+    if (this.data !== null && save) {
+      this.data.colour = this.newColor;
+    }
     this.setState({colorPickerVisible: visibility});
   }
 
