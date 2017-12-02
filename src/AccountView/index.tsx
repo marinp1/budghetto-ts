@@ -3,6 +3,7 @@ import glamorous from 'glamorous';
 import Navbar from '../Navbar';
 import { ObservableAccountStore } from './AccountStore';
 import AccountList from './AccountList';
+import AccountEditModal from './AccountEditModal';
 
 const Container = glamorous.div({
 
@@ -42,6 +43,7 @@ class AccountView extends React.Component<{}, AccountViewState> {
       <div>
         <Navbar/>
         <div>
+          <AccountEditModal accountStore={observableAccountStore}/>
           <Container className="section">
             <div className="container">
               <h1 className="title is-4">Accounts</h1>
