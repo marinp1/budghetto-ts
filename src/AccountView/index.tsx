@@ -6,11 +6,11 @@ const Container = glamorous.div({
 
 });
 
-interface SummaryViewState {
+interface AccountViewState {
 
 }
 
-class SummaryView extends React.Component<{}, SummaryViewState> {
+class AccountView extends React.Component<{}, AccountViewState> {
   render() {
     return (
       <Container>
@@ -20,4 +20,4 @@ class SummaryView extends React.Component<{}, SummaryViewState> {
   }
 }
 
-export default SummaryView;
+export default AccountView;

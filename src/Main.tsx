@@ -2,14 +2,15 @@ import * as React from 'react';
 import { Component } from 'react';
 import { Switch, Route } from 'react-router-dom';
 import WelcomeScreen from './WelcomeScreen';
-import SummaryView from './SummaryView';
+import AccountView from './AccountView';
+import paths from './paths';
 
 class Main extends Component {
   render() {
     return (
       <Switch>
-        <Route exact path="/" component={WelcomeScreen} />
-        <Route path="/summary" component={SummaryView} />
+        <Route exact path={paths.home} component={WelcomeScreen} />
+        <Route path={paths.accounts} component={AccountView} />
       </Switch>
     )
   }
