@@ -9,6 +9,6 @@ ReactDOM.render(
   <BrowserRouter>
     <Main />
   </BrowserRouter>,
-  document.getElementById('root') as HTMLElement
+  document.getElementById('root') as HTMLElement,
 );
 registerServiceWorker();

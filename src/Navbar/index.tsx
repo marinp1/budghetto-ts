@@ -20,6 +20,7 @@ const NavbarBrandTitle = glamorous.h6({
 })
 
 const NavbarLinkElement = glamorous.a({
+  cursor: 'pointer',
   '& a': {
     color: '#FFF',
   },
