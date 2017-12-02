@@ -1,7 +1,7 @@
 import * as React from 'react';
 import glamorous from 'glamorous';
 import { breakpoints } from '../styles';
-import { ObservableAccountStore } from './AccountStore';
+import { Account, ObservableAccountStore } from './AccountStore';
 import { observer } from 'mobx-react';
 
 const Bar = glamorous.div({
@@ -31,20 +31,12 @@ const MainTile = glamorous.div({
   }
 })
 
-export interface TileProps {
-  id: string,
-  accountName: string,
-  bankName: string,
-  colour: string,
-  balance: number,
-}
-
 @observer
-export class Tile extends React.Component
-  < {data: TileProps, screenWidth: number, accountStore: ObservableAccountStore},
-    {selectedAccount: () => string | null} > {
+export class AccountComponent extends React.Component
+  < {account: Account, screenWidth: number, accountStore: ObservableAccountStore},
+    {selectedAccount: () => Account | null} > {
 
-  constructor(props: {data: TileProps, screenWidth: number, accountStore: ObservableAccountStore}) {
+  constructor(props: {account: Account, screenWidth: number, accountStore: ObservableAccountStore}) {
     super(props);
     this.state = {selectedAccount: () => this.props.accountStore.getSelectedAccount}
     this.handleClick = this.handleClick.bind(this);
@@ -52,14 +44,14 @@ export class Tile extends React.Component
 
   handleClick(e: React.MouseEvent<HTMLDivElement>): void {
     e.preventDefault();
-    this.props.accountStore.selectAccount(this.props.data);
+    this.props.accountStore.selectAccount(this.props.account);
   }
 
   render() {
     const fontColour = '#333';
     const backgroundColor = '#FFF';
-    const barColour = this.props.data.colour;
-    const border = this.state.selectedAccount() === this.props.data.id
+    const barColour = this.props.account.colour;
+    const border = this.state.selectedAccount() === this.props.account
       ? `1px solid ${barColour}`
       : '1px solid #FFF';
     
@@ -79,11 +71,11 @@ export class Tile extends React.Component
         <div className="box" style={{background: backgroundColor, position: 'relative', border}}>
           <Bar style={{background: barColour}}></Bar>
           <div style={{display: 'inline-block', marginLeft: '35px'}}>
-            <h4 className="title is-5" style={{color: fontColour}}>{this.props.data.accountName}</h4>
-            <h6 className="subtitle is-6" style={{color: fontColour}}>{this.props.data.bankName}</h6>
+            <h4 className="title is-5" style={{color: fontColour}}>{this.props.account.accountName}</h4>
+            <h6 className="subtitle is-6" style={{color: fontColour}}>{this.props.account.bankName}</h6>
           </div>
           <CenteredFlexbox>
-            <h4 className="title is-4" style={{color: fontColour}}>{this.props.data.balance} €</h4>
+            <h4 className="title is-4" style={{color: fontColour}}>{this.props.account.balance} €</h4>
           </CenteredFlexbox>
         </div>
       </MainTile>

@@ -1,16 +1,16 @@
 import { observer } from 'mobx-react';
 import * as React from 'react';
 import { ObservableAccountStore } from './AccountStore';
-import { Tile } from './Tile';
+import { AccountComponent } from './AccountComponent';
 
 @observer
 class AccountList extends React.Component<{accountStore: ObservableAccountStore, screenWidth: number}, {}> {
   render() {
       return (
         <div className="columns is-multiline">
-          {this.props.accountStore.accountsData.map((data) => {
-            return <Tile
-              data={data}
+          {this.props.accountStore.getAccounts.map((account) => {
+            return <AccountComponent
+              account={account}
               accountStore={this.props.accountStore}
               screenWidth={this.props.screenWidth}
             />
