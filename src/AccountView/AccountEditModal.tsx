@@ -36,11 +36,12 @@ class AccountEditModal extends React.Component
 
   render() {
 
-    if (this.props.accountStore.selectedAccount === null || this.data === null) {
+    if (this.props.accountStore.getSelectedAccount === null || this.data === null) {
       return null;
     }
 
     const colorPickerVisible = this.state.colorPickerVisible ? "modal is-active" : "modal";
+    const account = this.props.accountStore.getSelectedAccount;
     
     return (
       <div>
@@ -49,7 +50,7 @@ class AccountEditModal extends React.Component
         <div className="modal-card">
           <header className="modal-card-head">
             <p className="modal-card-title">Edit account</p>
-            <button className="delete" aria-label="close"></button>
+            <button className="delete" aria-label="close" onClick={() => this.closeModal(account)}></button>
           </header>
           <section className="modal-card-body">
             <div className="box">
@@ -93,8 +94,8 @@ class AccountEditModal extends React.Component
             </div>
           </section>
           <footer className="modal-card-foot">
-            <button className="button is-success">Save changes</button>
-            <button className="button">Cancel</button>
+            <button className="button is-success" onClick={() => this.closeModal(account, true)}>Save changes</button>
+            <button className="button" onClick={() => this.closeModal(account)}>Cancel</button>
           </footer>
         </div>
       </div>
@@ -125,7 +126,13 @@ class AccountEditModal extends React.Component
   }
 
   // Close modal by unselecting the current account
-  closeModal(account: Account) {
+  closeModal(account: Account, save: boolean = false) {
+    if (save && this.data !== null) {
+      account.bankName = this.data.bankName;
+      account.accountName = this.data.accountName;
+      account.colour = this.data.colour;
+      account.balance = this.data.balance;
+    }
     this.props.accountStore.selectAccount(account);
   }
 
