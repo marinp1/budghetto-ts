@@ -1,7 +1,7 @@
 import * as React from 'react';
 import glamorous from 'glamorous';
 import { breakpoints } from '../styles';
-import { ObservableAccountStore } from './logic';
+import { ObservableAccountStore } from './AccountStore';
 import { observer } from 'mobx-react';
 
 const Bar = glamorous.div({

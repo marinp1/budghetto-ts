@@ -1,7 +1,7 @@
 import * as React from 'react';
 import glamorous from 'glamorous';
 import Navbar from '../Navbar';
-import { ObservableAccountStore } from './logic';
+import { ObservableAccountStore } from './AccountStore';
 import AccountList from './AccountList';
 
 const Container = glamorous.div({

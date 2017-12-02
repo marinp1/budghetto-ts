@@ -1,6 +1,6 @@
 import { observer } from 'mobx-react';
 import * as React from 'react';
-import { ObservableAccountStore } from './logic';
+import { ObservableAccountStore } from './AccountStore';
 import { Tile } from './Tile';
 
 @observer
