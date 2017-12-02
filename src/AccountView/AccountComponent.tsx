@@ -1,8 +1,7 @@
 import * as React from 'react';
 import glamorous from 'glamorous';
 import { breakpoints } from '../styles';
-import { Account, ObservableAccountStore } from './AccountStore';
-import { observer } from 'mobx-react';
+import { Account } from './AccountStore';
 
 const Bar = glamorous.div({
   width: '20px',
@@ -33,27 +32,18 @@ const MainTile = glamorous.div({
   }
 })
 
-@observer
 export class AccountComponent extends React.Component
-  < {account: Account, screenWidth: number, accountStore: ObservableAccountStore},
-    {selectedAccount: () => Account | null} > {
-
-  constructor(props: {account: Account, screenWidth: number, accountStore: ObservableAccountStore}) {
-    super(props);
-    this.state = {selectedAccount: () => this.props.accountStore.getSelectedAccount}
-    this.handleClick = this.handleClick.bind(this);
-  }
-
-  handleClick(e: React.MouseEvent<HTMLDivElement>): void {
-    e.preventDefault();
-    this.props.accountStore.selectAccount(this.props.account);
-  }
+  < {account: Account,
+    screenWidth: number,
+    handleAccountClick: (account: Account) => void,
+    selected: boolean}
+  > {
 
   render() {
     const fontColour = '#333';
     const backgroundColor = '#FFF';
     const barColour = this.props.account.colour;
-    const border = this.state.selectedAccount() === this.props.account
+    const border = this.props.selected
       ? `1px solid ${barColour}`
       : '1px solid transparent';
     
@@ -69,7 +59,7 @@ export class AccountComponent extends React.Component
     }
 
     return (
-      <MainTile className={classNames} onClick={e => this.handleClick(e)}>
+      <MainTile className={classNames} onClick={() => this.props.handleAccountClick(this.props.account)}>
         <div className="box" style={{background: backgroundColor, position: 'relative', paddingTop: '0.75rem', paddingBottom: '0.75rem', border}}>
           <Bar style={{background: barColour}}></Bar>
           <div style={{display: 'inline-block', marginLeft: '15px'}}>
