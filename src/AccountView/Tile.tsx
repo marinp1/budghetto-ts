@@ -40,10 +40,13 @@ export interface TileProps {
 }
 
 @observer
-export class Tile extends React.Component<{data: TileProps, screenWidth: number, accountStore: ObservableAccountStore}> {
+export class Tile extends React.Component
+  < {data: TileProps, screenWidth: number, accountStore: ObservableAccountStore},
+    {selectedAccount: () => string | null} > {
 
   constructor(props: {data: TileProps, screenWidth: number, accountStore: ObservableAccountStore}) {
     super(props);
+    this.state = {selectedAccount: () => this.props.accountStore.getSelectedAccount}
     this.handleClick = this.handleClick.bind(this);
   }
 
@@ -53,11 +56,10 @@ export class Tile extends React.Component<{data: TileProps, screenWidth: number,
   }
 
   render() {
-
     const fontColour = '#333';
     const backgroundColor = '#FFF';
     const barColour = this.props.data.colour;
-    const border = this.props.accountStore.selectedAccount === this.props.data.id
+    const border = this.state.selectedAccount() === this.props.data.id
       ? `1px solid ${barColour}`
       : '1px solid #FFF';
     
