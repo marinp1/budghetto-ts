@@ -14,7 +14,14 @@ const accountData: Array<AccountProps> = [
     bankName: 'Osuuspankki',
     colour: '#FF0000',
     balance: 10222,
-  }
+  },
+  {
+    id:'Osuuspankki-Käyttötili',
+    accountName: 'Käyttötili',
+    bankName: 'Osuuspankki',
+    colour: '#FF0000',
+    balance: 200.43,
+  },
 ]
 
 export interface AccountProps {

@@ -10,7 +10,9 @@ const Bar = glamorous.div({
   display: 'inline-block',
   position: 'absolute',
   top: 0,
-  left: '15px',
+  left: 0,
+  borderTopLeftRadius: 'inherit',
+  borderBottomLeftRadius: 'inherit',
 })
 
 const CenteredFlexbox = glamorous.div({
@@ -53,7 +55,7 @@ export class AccountComponent extends React.Component
     const barColour = this.props.account.colour;
     const border = this.state.selectedAccount() === this.props.account
       ? `1px solid ${barColour}`
-      : '1px solid #FFF';
+      : '1px solid transparent';
     
     let classNames = "column ";
     if (this.props.screenWidth >= breakpoints.widescreen) {
@@ -68,14 +70,14 @@ export class AccountComponent extends React.Component
 
     return (
       <MainTile className={classNames} onClick={e => this.handleClick(e)}>
-        <div className="box" style={{background: backgroundColor, position: 'relative', border}}>
+        <div className="box" style={{background: backgroundColor, position: 'relative', paddingTop: '0.75rem', paddingBottom: '0.75rem', border}}>
           <Bar style={{background: barColour}}></Bar>
-          <div style={{display: 'inline-block', marginLeft: '35px'}}>
-            <h4 className="title is-5" style={{color: fontColour}}>{this.props.account.accountName}</h4>
-            <h6 className="subtitle is-6" style={{color: fontColour}}>{this.props.account.bankName}</h6>
+          <div style={{display: 'inline-block', marginLeft: '15px'}}>
+            <b style={{color: fontColour}}>{this.props.account.accountName}</b>
+            <p className="subtitle is-6" style={{color: fontColour}}>{this.props.account.bankName}</p>
           </div>
           <CenteredFlexbox>
-            <h4 className="title is-4" style={{color: fontColour}}>{this.props.account.balance} €</h4>
+            <h6 className="title is-6" style={{color: fontColour}}>{this.props.account.balance} €</h6>
           </CenteredFlexbox>
         </div>
       </MainTile>

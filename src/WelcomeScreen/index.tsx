@@ -26,7 +26,7 @@ const WelcomeScreen = () => (
   <Container className="hero is-fullheight">
     <div className="hero-body">
       <div className="container">
-        <h1 className="title is-1 is-spaced">
+        <h1 className="title is-2 is-spaced" style={{letterSpacing: '6px'}}>
           BUDGHETTO
         </h1>
         <h2 className="subtitle is-5">
