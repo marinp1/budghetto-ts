@@ -78,7 +78,7 @@ class AccountEditModal extends React.Component
                   <input readOnly={true} className="input is-success" type="text" placeholder="Account colour"
                    value={data.colour}
                    style={{cursor: 'pointer', background: '#FFF'}}
-                   onClick={(e) => this.toggleColourPicker(e)}/>
+                   onClick={() => this.toggleColourPicker(true)}/>
                   <span className="icon is-small is-left">
                     <i className="fa fa-paint-brush"></i>
                   </span>
@@ -105,7 +105,7 @@ class AccountEditModal extends React.Component
           </section>
           <footer className="modal-card-foot">
             <button className="button is-success">Save changes</button>
-            <button className="button">Cancel</button>
+            <button className="button" onClick={() => this.toggleColourPicker(false)}>Cancel</button>
           </footer>
         </div>
       </div>
@@ -113,9 +113,8 @@ class AccountEditModal extends React.Component
     );
   }
 
-  toggleColourPicker(e: React.MouseEvent<HTMLInputElement>) {
-    e.preventDefault();
-    this.setState({colorPickerVisible: true});
+  toggleColourPicker(visibility: boolean) {
+    this.setState({colorPickerVisible: visibility});
   }
 
   // Close modal by unselecting the current account
