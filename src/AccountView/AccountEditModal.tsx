@@ -7,7 +7,9 @@ import { Account, AccountProps, ObservableAccountStore} from './AccountStore';
 class AccountEditModal extends React.Component
   <{accountStore: ObservableAccountStore}, {colorPickerVisible: boolean, data: null | AccountProps}> {
 
+  // Keep new color here instead of in state to avoid rerenders
   newColor: string;
+  // Keep data in props and here just to avoid some unnecessary copypastes
   data: null | AccountProps = null;
 
   constructor(props: {accountStore: ObservableAccountStore}) {
@@ -18,7 +20,7 @@ class AccountEditModal extends React.Component
     }
   }
 
-  handleChangeComplete = (color: ColorResult) => {
+  handleColourChange = (color: ColorResult) => {
     this.newColor = color.hex;
   };
 
@@ -122,7 +124,7 @@ class AccountEditModal extends React.Component
           <section className="modal-card-head">
             <SketchPicker
               color={ data.colour }
-              onChangeComplete={ this.handleChangeComplete }
+              onChangeComplete={ this.handleColourChange }
             />
           </section>
           <footer className="modal-card-foot">
