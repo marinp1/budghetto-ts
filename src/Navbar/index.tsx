@@ -1,6 +1,5 @@
 import * as React from 'react';
 import glamorous from 'glamorous';
-import { Link } from 'react-router-dom';
 import paths from '../paths';
 
 const NavbarElement = glamorous.nav({
@@ -21,34 +20,26 @@ const NavbarBrandTitle = glamorous.h6({
 
 const NavbarLinkElement = glamorous.a({
   cursor: 'pointer',
-  '& a': {
-    color: '#FFF',
-  },
+  color: '#FFF',
   ':hover': {
     background: 'transparent !important',
-    '& a': {
-      color: '#AAA',
-    },
+    color: '#AAA !important',
   },
   ':active': {
-    '& a': {
-      color: '#333',
-    },
+    color: '#333 !important',
   },
 })
 
 const Navbar = () => (
   <NavbarElement className="navbar" role="navigation" aria-label="main navigation">
     <div className="navbar-brand">
-      <NavbarLinkElement className="navbar-item">
-        <Link to={paths.home}>
-          <div style={{display: 'flex'}}>
-            <img src="./logo_round.png"
-                alt="Budghetto"
-                width="auto" height="100%"/>
-            <NavbarBrandTitle>BUDGHETTO</NavbarBrandTitle>
-          </div>
-        </Link>
+      <NavbarLinkElement className="navbar-item" href={paths.home}>
+        <div style={{display: 'flex'}}>
+          <img src="./logo_round.png"
+              alt="Budghetto"
+              width="auto" height="100%"/>
+          <NavbarBrandTitle>BUDGHETTO</NavbarBrandTitle>
+        </div>
       </NavbarLinkElement>
       <button className="button navbar-burger is-black" data-target="navbarContent">
         <span></span>
@@ -57,8 +48,8 @@ const Navbar = () => (
       </button>
       <div id="navbarContent" className="navbar-menu">
         <div className="navbar-start">
-          <NavbarLinkElement className="navbar-item">
-            <Link to={paths.accounts}>Accounts</Link>
+          <NavbarLinkElement className="navbar-item" href={paths.accounts}>
+            Accounts
           </NavbarLinkElement>
         </div>
       </div>

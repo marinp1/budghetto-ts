@@ -20,6 +20,7 @@ class AccountList extends React.Component<{accountStore: ObservableAccountStore,
         <div className="columns is-multiline">
           {this.props.accountStore.getAccounts.map((account) => {
             return <AccountComponent
+              key={account.id}
               account={account}
               handleAccountClick={this.handleAccountClick}
               screenWidth={this.props.screenWidth}
