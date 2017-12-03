@@ -2,8 +2,10 @@ import * as React from 'react';
 import glamorous from 'glamorous';
 import Navbar from '../Navbar';
 import { ObservableAccountStore } from './AccountStore';
+import { observer } from 'mobx-react';
 import AccountList from './AccountList';
 import AccountEditModal from './AccountEditModal';
+import NewAccountButton from './NewAccountButton';
 
 const Container = glamorous.div({
 
@@ -15,6 +17,7 @@ interface AccountViewState {
 
 const observableAccountStore = new ObservableAccountStore();
 
+@observer
 class AccountView extends React.Component<{}, AccountViewState> {
 
   constructor(props: {}) {
@@ -46,7 +49,10 @@ class AccountView extends React.Component<{}, AccountViewState> {
           <AccountEditModal accountStore={observableAccountStore}/>
           <Container className="section">
             <div className="container">
-              <h1 className="title is-4">Accounts</h1>
+              <div>
+                <h1 className="title is-4" style={{display: 'inline-block'}}>Accounts</h1>
+                <NewAccountButton screenWidth={this.state.screenWidth} accountStore={observableAccountStore}/>
+              </div>
               <hr></hr>
               <AccountList accountStore={observableAccountStore} screenWidth={this.state.screenWidth}/>
             </div>

@@ -80,6 +80,11 @@ export class ObservableAccountStore {
     });
   }
 
+  addNewAccount(account: Account) {
+    account.id = account.bankName + '-' + account.accountName;
+    this.accounts.push(account);
+  }
+
   selectAccount(account: Account) {
     if (this.selectedAccount === account) {
       this.selectedAccount = null;

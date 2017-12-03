@@ -5,7 +5,8 @@ import { Account, AccountProps, ObservableAccountStore} from './AccountStore';
 
 @observer
 class AccountEditModal extends React.Component
-  <{accountStore: ObservableAccountStore}, {colorPickerVisible: boolean, data: null | AccountProps}> {
+  <{accountStore: ObservableAccountStore},
+   {colorPickerVisible: boolean, data: null | AccountProps}> {
 
   // Keep new color here instead of in state to avoid rerenders
   newColor: string;
@@ -154,7 +155,12 @@ class AccountEditModal extends React.Component
   // Close modal by unselecting the current account
   closeModal(account: Account, save: boolean = false) {
     if (save && this.data) {
-      this.props.accountStore.editAccount(account, this.data);
+      if (this.data.id === '-') {
+        this.props.accountStore.editAccount(account, this.data);
+        this.props.accountStore.addNewAccount(account);
+      } else {
+        this.props.accountStore.editAccount(account, this.data);
+      }
     }
     this.data = null;
     this.props.accountStore.selectAccount(account);
