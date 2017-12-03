@@ -4,6 +4,43 @@ import { SketchPicker, ColorResult } from 'react-color';
 import { breakpoints } from '../styles';
 import { Account, AccountProps, ObservableAccountStore} from './AccountStore';
 
+
+interface InputFieldProps {
+  name: string;
+  sizeModifier: string;
+  value: string | number;
+  placeholder: string;
+  dataId: string;
+  leftIcon: string;
+  rightIcon: string;
+  onChange: (dataId: string, e: React.ChangeEvent<HTMLInputElement>, numberInput: boolean) => void;
+}
+
+const InputFieldComponent = (props: InputFieldProps) => {
+  return (
+    <div className="field">
+      <label className={"label" + props.sizeModifier}>{props.name}</label>
+      <div className="control has-icons-left has-icons-right">
+        <input className={"input is-success" + props.sizeModifier}
+          type={typeof props.value === 'string' ? "text" : "number"}
+          placeholder={props.placeholder}
+          value={props.value}
+          onChange={(e) => props.onChange(props.dataId, e, typeof props.value !== 'string')}
+        />
+        <span className="icon is-small is-left">
+          <i className={`fa ${props.leftIcon}`}></i>
+        </span>
+        <span className="icon is-small is-right">
+          <i className={`fa ${props.rightIcon}`}></i>
+        </span>
+      </div>
+      {typeof props.value === 'string' && props.value.trim() === '' && <p className='help is-danger'>
+        This field is required
+      </p>}
+    </div>
+  );
+};
+
 @observer
 class AccountEditModal extends React.Component
   <{accountStore: ObservableAccountStore, screenWidth: number},
@@ -26,7 +63,7 @@ class AccountEditModal extends React.Component
     this.newColor = color.hex;
   };
 
-  handleDataUpdate = (target: string, e: React.ChangeEvent<HTMLInputElement>, numberInput: boolean = false) => {
+  handleDataUpdate = (target: string, e: React.ChangeEvent<HTMLInputElement>, numberInput: boolean) => {
     if (this.data !== null) {
       !numberInput ? this.data[target] = e.target.value : this.data[target] = (Number(e.target.value));
       if (numberInput) {
@@ -72,60 +109,36 @@ class AccountEditModal extends React.Component
           </header>
           <section className="modal-card-body">
             <div className="box">
-              <div className="field">
-                <label className={"label" + sizeModifier}>Bank name</label>
-                <div className="control has-icons-left has-icons-right">
-                  <input className={"input is-success" + sizeModifier} type="text"
-                    placeholder="Bank name"
-                    value={data.bankName}
-                    onChange={(e) => this.handleDataUpdate('bankName', e)}
-                  />
-                  <span className="icon is-small is-left">
-                    <i className="fa fa-university"></i>
-                  </span>
-                  <span className="icon is-small is-right">
-                    <i className="fa fa-check"></i>
-                  </span>
-                </div>
-                {this.data.bankName.trim() === '' && <p className='help is-danger'>
-                  This field is required
-                </p>}
-              </div>
-              <div className="field">
-                <label className={"label" + sizeModifier}>Account name</label>
-                <div className="control has-icons-left has-icons-right">
-                  <input className={"input is-success" + sizeModifier} type="text"
-                    placeholder="Account name"
-                    value={data.accountName}
-                    onChange={(e) => this.handleDataUpdate('accountName', e)}
-                  />
-                  <span className="icon is-small is-left">
-                    <i className="fa fa-credit-card"></i>
-                  </span>
-                  <span className="icon is-small is-right">
-                    <i className="fa fa-check"></i>
-                  </span>
-                </div>
-                {this.data.accountName.trim() === '' && <p className='help is-danger'>
-                  This field is required
-                </p>}
-              </div>
-              <div className="field">
-                <label className={"label" + sizeModifier}>Starting balance</label>
-                <div className="control has-icons-left has-icons-right">
-                  <input className={"input is-success" + sizeModifier} type="number"
-                    placeholder="0.00"
-                    value={data.startingBalance}
-                    onChange={(e) => this.handleDataUpdate('startingBalance', e, true)}
-                  />
-                  <span className="icon is-small is-left">
-                    <i className="fa fa-money"></i>
-                  </span>
-                  <span className="icon is-small is-right">
-                    <i className="fa fa-eur"></i>
-                  </span>
-                </div>
-              </div>
+              <InputFieldComponent
+                name={"Bank name"}
+                sizeModifier={sizeModifier}
+                value={data.bankName}
+                placeholder={"Bank name"}
+                dataId={"bankName"}
+                leftIcon={"fa-university"}
+                rightIcon={"fa-check"}
+                onChange={this.handleDataUpdate}
+              />
+              <InputFieldComponent
+                name={"Account name"}
+                sizeModifier={sizeModifier}
+                value={data.accountName}
+                placeholder={"Account name"}
+                dataId={"accountName"}
+                leftIcon={"fa-credit-card"}
+                rightIcon={"fa-check"}
+                onChange={this.handleDataUpdate}
+              />
+              <InputFieldComponent
+                name={"Starting balance"}
+                sizeModifier={sizeModifier}
+                value={data.startingBalance}
+                placeholder={"0.00"}
+                dataId={"startingBalance"}
+                leftIcon={"fa-money"}
+                rightIcon={"fa-eur"}
+                onChange={this.handleDataUpdate}
+              />
               <div className="field">
                 <label className={"label" + sizeModifier}>Account colour</label>
                 <div className="control has-icons-left has-addons has-icons-right">
