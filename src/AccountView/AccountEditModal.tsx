@@ -81,6 +81,9 @@ class AccountEditModal extends React.Component
                     <i className="fa fa-check"></i>
                   </span>
                 </div>
+                {this.data.bankName === '' && <p className='help is-danger'>
+                  This field is required
+                </p>}
               </div>
               <div className="field">
                 <label className="label">Account name</label>
@@ -97,6 +100,9 @@ class AccountEditModal extends React.Component
                     <i className="fa fa-check"></i>
                   </span>
                 </div>
+                {this.data.accountName === '' && <p className='help is-danger'>
+                  This field is required
+                </p>}
               </div>
               <div className="field">
                 <label className="label">Starting balance</label>
@@ -133,6 +139,9 @@ class AccountEditModal extends React.Component
                     }}
                   />
                 </div>
+                {this.data.colour === '' && <p className='help is-danger'>
+                  This field is required
+                </p>}
               </div>
             </div>
           </section>
