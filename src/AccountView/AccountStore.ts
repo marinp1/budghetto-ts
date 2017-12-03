@@ -57,9 +57,9 @@ export class ObservableAccountStore {
 
   constructor() {
     mobx.autorun(() => {
-      console.log(accountData.map((data) => {
+      accountData.map((data) => {
         this.addAccount(data.accountName, data.bankName, data.colour, data.startingBalance);
-      }));
+      });
     });
   }
 
@@ -99,5 +99,15 @@ export class ObservableAccountStore {
     account.accountName = newData.accountName;
     account.colour = newData.colour;
     account.startingBalance = newData.startingBalance;
+  }
+
+  deleteAccount(account: Account): boolean {
+    const accountIndex = this.accounts.indexOf(account);
+    if (accountIndex === -1) {
+      return false;
+    }
+    this.accounts.splice(accountIndex, 1);
+    this.selectedAccount = null;
+    return this.accounts.indexOf(account) === -1;
   }
 }

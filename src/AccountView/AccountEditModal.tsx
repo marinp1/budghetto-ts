@@ -179,7 +179,7 @@ class AccountEditModal extends React.Component
               </p>
               {account.id !== '-' &&
               <p className="control" style={{marginLeft: 'auto'}}>
-                <a className={"button is-danger" + sizeModifier} onClick={() => this.closeModal(account)}>
+                <a className={"button is-danger" + sizeModifier} onClick={() => this.deleteAndClose(account)}>
                   {this.props.screenWidth <= breakpoints.mobile &&
                     <span className="icon">
                       <i className="fa fa-trash"></i>
@@ -233,6 +233,11 @@ class AccountEditModal extends React.Component
       this.data = null;
       this.props.accountStore.selectAccount(account);
     }
+  }
+
+  deleteAndClose(account: Account) {
+    this.data = null;
+    this.props.accountStore.deleteAccount(account);
   }
 
   validateData(data: AccountProps): boolean {
