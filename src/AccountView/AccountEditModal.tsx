@@ -1,11 +1,12 @@
 import * as React from 'react';
 import { observer } from 'mobx-react';
 import { SketchPicker, ColorResult } from 'react-color';
+import { breakpoints } from '../styles';
 import { Account, AccountProps, ObservableAccountStore} from './AccountStore';
 
 @observer
 class AccountEditModal extends React.Component
-  <{accountStore: ObservableAccountStore},
+  <{accountStore: ObservableAccountStore, screenWidth: number},
    {colorPickerVisible: boolean, data: null | AccountProps}> {
 
   // Keep new color here instead of in state to avoid rerenders
@@ -13,7 +14,7 @@ class AccountEditModal extends React.Component
   // Keep data in props and here just to avoid some unnecessary copypastes
   data: null | AccountProps = null;
 
-  constructor(props: {accountStore: ObservableAccountStore}) {
+  constructor(props: {accountStore: ObservableAccountStore, screenWidth: number}) {
     super(props);
     this.state = {
       colorPickerVisible: false,
@@ -58,6 +59,7 @@ class AccountEditModal extends React.Component
     const account = this.props.accountStore.getSelectedAccount;
     const data = this.data;
     const modalTitle = account.id === '-' ? 'New account' : 'Edit account';
+    const sizeModifier = this.props.screenWidth <= breakpoints.mobile ? ' is-small' : '';
     
     return (
       <div>
@@ -71,9 +73,9 @@ class AccountEditModal extends React.Component
           <section className="modal-card-body">
             <div className="box">
               <div className="field">
-                <label className="label">Bank name</label>
+                <label className={"label" + sizeModifier}>Bank name</label>
                 <div className="control has-icons-left has-icons-right">
-                  <input className="input is-success" type="text"
+                  <input className={"input is-success" + sizeModifier} type="text"
                     placeholder="Bank name"
                     value={data.bankName}
                     onChange={(e) => this.handleDataUpdate('bankName', e)}
@@ -90,9 +92,9 @@ class AccountEditModal extends React.Component
                 </p>}
               </div>
               <div className="field">
-                <label className="label">Account name</label>
+                <label className={"label" + sizeModifier}>Account name</label>
                 <div className="control has-icons-left has-icons-right">
-                  <input className="input is-success" type="text"
+                  <input className={"input is-success" + sizeModifier} type="text"
                     placeholder="Account name"
                     value={data.accountName}
                     onChange={(e) => this.handleDataUpdate('accountName', e)}
@@ -109,9 +111,9 @@ class AccountEditModal extends React.Component
                 </p>}
               </div>
               <div className="field">
-                <label className="label">Starting balance</label>
+                <label className={"label" + sizeModifier}>Starting balance</label>
                 <div className="control has-icons-left has-icons-right">
-                  <input className="input is-success" type="number"
+                  <input className={"input is-success" + sizeModifier} type="number"
                     placeholder="0.00"
                     value={data.startingBalance}
                     onChange={(e) => this.handleDataUpdate('startingBalance', e, true)}
@@ -125,12 +127,15 @@ class AccountEditModal extends React.Component
                 </div>
               </div>
               <div className="field">
-                <label className="label">Account colour</label>
+                <label className={"label" + sizeModifier}>Account colour</label>
                 <div className="control has-icons-left has-addons has-icons-right">
-                  <input readOnly={true} className="input is-success" type="text" placeholder="Account colour"
-                   value={data.colour}
-                   style={{cursor: 'pointer', background: '#FFF'}}
-                   onClick={() => this.toggleColourPicker(true)}/>
+                  <input readOnly={true}
+                    className={"input is-success" + sizeModifier}
+                    type="text"
+                    placeholder="Account colour"
+                    value={data.colour}
+                    style={{cursor: 'pointer', background: '#FFF'}}
+                    onClick={() => this.toggleColourPicker(true)}/>
                   <span className="icon is-small is-left">
                     <i className="fa fa-paint-brush"></i>
                   </span>
@@ -138,8 +143,6 @@ class AccountEditModal extends React.Component
                     style={{
                       borderRadius: '0 2px 2px 0',
                       background: data.colour,
-                      margin: '1px',
-                      height: '34px',
                     }}
                   />
                 </div>
@@ -150,8 +153,28 @@ class AccountEditModal extends React.Component
             </div>
           </section>
           <footer className="modal-card-foot">
-            <button className="button is-success" onClick={() => this.closeModal(account, true)}>Save changes</button>
-            <button className="button" onClick={() => this.closeModal(account)}>Cancel</button>
+            <div className="field is-grouped" style={{width: '100%'}}>
+              <p className="control">
+                <a className={"button is-success" + sizeModifier} onClick={() => this.closeModal(account, true)}>
+                  Save changes
+                </a>
+              </p>
+              <p className="control">
+                <a className={"button" + sizeModifier} onClick={() => this.closeModal(account)}>
+                  Cancel
+                </a>
+              </p>
+              {account.id !== '-' &&
+              <p className="control" style={{marginLeft: 'auto'}}>
+                <a className={"button is-danger" + sizeModifier} onClick={() => this.closeModal(account)}>
+                  {this.props.screenWidth <= breakpoints.mobile &&
+                    <span className="icon">
+                      <i className="fa fa-trash"></i>
+                    </span>}
+                  {this.props.screenWidth > breakpoints.mobile && "Delete account" }
+                </a>
+              </p>}
+            </div>
           </footer>
         </div>
       </div>
@@ -165,8 +188,8 @@ class AccountEditModal extends React.Component
             />
           </section>
           <footer className="modal-card-foot">
-            <button className="button is-success" onClick={() => this.toggleColourPicker(false, true)}>Apply</button>
-            <button className="button" onClick={() => this.toggleColourPicker(false)}>Cancel</button>
+            <button className={"button is-success" + sizeModifier} onClick={() => this.toggleColourPicker(false, true)}>Apply</button>
+            <button className={"button" + sizeModifier} onClick={() => this.toggleColourPicker(false)}>Cancel</button>
           </footer>
         </div>
       </div>

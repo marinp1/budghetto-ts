@@ -16,7 +16,7 @@ class NewAccountButton extends React.Component<{accountStore: ObservableAccountS
         <span className="icon">
           <i className="fa fa-plus"></i>
         </span>
-        {this.props.screenWidth >= breakpoints.tablet && <span>Create new account</span>}
+        {this.props.screenWidth > breakpoints.mobile && <span>Create new account</span>}
       </a>
     );
   }

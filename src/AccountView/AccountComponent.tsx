@@ -54,7 +54,7 @@ export class AccountComponent extends React.Component
     } else if (this.props.screenWidth >= breakpoints.desktop) {
       classNames += 'is-4'
     } else if (this.props.screenWidth >= breakpoints.tablet) {
-      classNames += 'is-6'
+      classNames += 'is-4'
     } else {
       classNames += 'is-6'
     }

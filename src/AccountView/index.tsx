@@ -46,7 +46,7 @@ class AccountView extends React.Component<{}, AccountViewState> {
       <div>
         <Navbar/>
         <div>
-          <AccountEditModal accountStore={observableAccountStore}/>
+          <AccountEditModal screenWidth={this.state.screenWidth} accountStore={observableAccountStore}/>
           <Container className="section">
             <div className="container">
               <div>
