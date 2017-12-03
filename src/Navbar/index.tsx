@@ -1,33 +1,33 @@
-import * as React from "react";
-import glamorous from "glamorous";
-import paths from "../paths";
+import * as React from 'react';
+import glamorous from 'glamorous';
+import paths from '../paths';
 
 const NavbarElement = glamorous.nav({
-  background: "#000"
+  background: '#000',
 });
 
 const NavbarBrandTitle = glamorous.h6({
-  color: "#FFF",
-  marginLeft: "10px",
-  padding: "0.1rem 0",
-  ":hover": {
-    color: "#AAA"
+  color: '#FFF',
+  marginLeft: '10px',
+  padding: '0.1rem 0',
+  ':hover': {
+    color: '#AAA',
   },
-  ":active": {
-    color: "#333"
-  }
+  ':active': {
+    color: '#333',
+  },
 });
 
 const NavbarLinkElement = glamorous.a({
-  cursor: "pointer",
-  color: "#FFF",
-  ":hover": {
-    background: "transparent !important",
-    color: "#AAA !important"
+  cursor: 'pointer',
+  color: '#FFF',
+  ':hover': {
+    background: 'transparent !important',
+    color: '#AAA !important',
   },
-  ":active": {
-    color: "#333 !important"
-  }
+  ':active': {
+    color: '#333 !important',
+  },
 });
 
 const Navbar = () => (
@@ -38,7 +38,7 @@ const Navbar = () => (
   >
     <div className="navbar-brand">
       <NavbarLinkElement className="navbar-item" href={paths.home}>
-        <div style={{ display: "flex" }}>
+        <div style={{ display: 'flex' }}>
           <img
             src="./logo_round.png"
             alt="Budghetto"

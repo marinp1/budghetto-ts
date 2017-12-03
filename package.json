@@ -3,7 +3,6 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@types/react-router-dom": "^4.2.3",
     "bulma": "^0.6.1",
     "glamor": "^2.20.40",
     "glamorous": "^4.11.0",
@@ -16,9 +15,10 @@
     "react-dom": "^16.2.0",
     "react-router-dom": "^4.2.2",
     "react-scripts-ts": "2.8.0",
-    "tslint-config-airbnb": "^5.4.2"
+    "tslint-react": "^3.2.0"
   },
   "scripts": {
+    "lint": "tslint 'src/**/*.ts?(x)'",
     "css-deploy": "npm run css-build && npm run css-postcss",
     "css-build": "node-sass src/_sass/main.scss public/main.css",
     "css-postcss": "postcss --use autoprefixer --output public/main.css public/main.css",
@@ -35,6 +35,8 @@
     "@types/react-color": "^2.13.3",
     "@types/react-css-modules": "^4.6.0",
     "@types/react-dom": "^16.0.3",
-    "tslint-config-prettier": "^1.6.0"
+    "@types/react-router-dom": "^4.2.3",
+    "tslint": "^5.8.0",
+    "tslint-config-airbnb": "^5.4.2"
   }
 }
