@@ -23,7 +23,8 @@ class AccountEditModal extends React.Component
   };
 
   componentWillUpdate() {
-    if (this.data === null && this.props.accountStore.getSelectedAccount !== null) {
+    if ((this.data === null && this.props.accountStore.getSelectedAccount !== null)
+        || (this.props.accountStore.getSelectedAccount && this.data && this.props.accountStore.getSelectedAccount.id !== this.data.id)) {
       this.data = {
         id: this.props.accountStore.getSelectedAccount.id,
         balance: this.props.accountStore.getSelectedAccount.balance,
