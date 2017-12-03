@@ -81,7 +81,7 @@ class AccountEditModal extends React.Component
                     <i className="fa fa-check"></i>
                   </span>
                 </div>
-                {this.data.bankName === '' && <p className='help is-danger'>
+                {this.data.bankName.trim() === '' && <p className='help is-danger'>
                   This field is required
                 </p>}
               </div>
@@ -100,7 +100,7 @@ class AccountEditModal extends React.Component
                     <i className="fa fa-check"></i>
                   </span>
                 </div>
-                {this.data.accountName === '' && <p className='help is-danger'>
+                {this.data.accountName.trim() === '' && <p className='help is-danger'>
                   This field is required
                 </p>}
               </div>
@@ -139,7 +139,7 @@ class AccountEditModal extends React.Component
                     }}
                   />
                 </div>
-                {this.data.colour === '' && <p className='help is-danger'>
+                {this.data.colour.trim() === '' && <p className='help is-danger'>
                   This field is required
                 </p>}
               </div>
@@ -199,6 +199,9 @@ class AccountEditModal extends React.Component
     if (data.startingBalance.toString() === '') {
       data.startingBalance = 0;
     }
+    data.accountName = data.accountName.trim();
+    data.bankName = data.bankName.trim();
+    data.colour = data.colour.trim();
     return (
       data.accountName !== '' && data.bankName !== '' && data.colour !== '' && data.startingBalance >= 0
     );
