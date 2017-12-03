@@ -28,6 +28,9 @@ class AccountEditModal extends React.Component
   handleDataUpdate = (target: string, e: React.ChangeEvent<HTMLInputElement>, numberInput: boolean = false) => {
     if (this.data !== null) {
       !numberInput ? this.data[target] = e.target.value : this.data[target] = (Number(e.target.value));
+      if (numberInput) {
+        e.target.value = e.target.value.replace(/^0+/, '');
+      }
       this.setState({data: this.data})
     }
   }
