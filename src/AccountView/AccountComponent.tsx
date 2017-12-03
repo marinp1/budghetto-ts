@@ -76,7 +76,7 @@ export class AccountComponent extends React.Component
             <p className="subtitle is-6" style={{color: fontColour}}>{this.props.account.bankName}</p>
           </div>
           <CenteredFlexbox>
-            <h6 className="title is-6" style={{color: fontColour}}>{this.props.account.balance} €</h6>
+            <h6 className="title is-6" style={{color: fontColour}}>{this.props.account.startingBalance.toFixed(2)} €</h6>
           </CenteredFlexbox>
         </div>
       </MainTile>

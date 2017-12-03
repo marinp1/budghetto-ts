@@ -6,21 +6,21 @@ const accountData: Array<AccountProps> = [
     accountName: 'Nordea',
     bankName: 'Nordea',
     colour: '#0000FF',
-    balance: 432,
+    startingBalance: 432,
   },
   {
     id:'Osuuspankki-Säästötili',
     accountName: 'Säästötili',
     bankName: 'Osuuspankki',
     colour: '#FF0000',
-    balance: 10222,
+    startingBalance: 10222,
   },
   {
     id:'Osuuspankki-Käyttötili',
     accountName: 'Käyttötili',
     bankName: 'Osuuspankki',
     colour: '#FF0000',
-    balance: 200.43,
+    startingBalance: 200.43,
   },
 ]
 
@@ -29,7 +29,8 @@ export interface AccountProps {
   accountName: string,
   bankName: string,
   colour: string,
-  balance: number,
+  startingBalance: number,
+  // TODO: Add creation date,
 }
 
 
@@ -39,14 +40,14 @@ export class Account implements AccountProps {
   accountName: string;
   bankName: string;
   colour: string;
-  balance: number;
+  startingBalance: number;
 
-  constructor(accountName: string, bankName: string, colour: string, balance: number) {
+  constructor(accountName: string, bankName: string, colour: string, startingBalance: number) {
     this.id = bankName + '-' + accountName,
     this.accountName = accountName;
     this.bankName = bankName;
     this.colour = colour;
-    this.balance = balance;
+    this.startingBalance = startingBalance;
   }
 }
 
@@ -57,7 +58,7 @@ export class ObservableAccountStore {
   constructor() {
     mobx.autorun(() => {
       console.log(accountData.map((data) => {
-        this.addAccount(data.accountName, data.bankName, data.colour, data.balance);
+        this.addAccount(data.accountName, data.bankName, data.colour, data.startingBalance);
       }));
     });
   }
@@ -70,13 +71,13 @@ export class ObservableAccountStore {
     return this.selectedAccount;
   }
 
-  addAccount(accountName: string, bankName: string, colour: string, balance: number) {
+  addAccount(accountName: string, bankName: string, colour: string, startingBalance: number) {
     this.accounts.push({
       id: bankName + '-' + accountName,
       accountName,
       bankName,
       colour,
-      balance,
+      startingBalance,
     });
   }
 
@@ -97,6 +98,6 @@ export class ObservableAccountStore {
     account.bankName = newData.bankName;
     account.accountName = newData.accountName;
     account.colour = newData.colour;
-    account.balance = newData.balance;
+    account.startingBalance = newData.startingBalance;
   }
 }

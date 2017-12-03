@@ -5,6 +5,7 @@ import { Account, ObservableAccountStore } from './AccountStore';
 class NewAccountButton extends React.Component<{accountStore: ObservableAccountStore, screenWidth: number}> {
 
   handleClick = () => {
+    // Bit hacky way to do this with reusing editing modal
     const newAccount = new Account('', '', '' , 0);
     this.props.accountStore.selectAccount(newAccount);
   }

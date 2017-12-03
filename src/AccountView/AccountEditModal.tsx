@@ -25,9 +25,9 @@ class AccountEditModal extends React.Component
     this.newColor = color.hex;
   };
 
-  handleDataUpdate = (target: string, e: React.ChangeEvent<HTMLInputElement>) => {
+  handleDataUpdate = (target: string, e: React.ChangeEvent<HTMLInputElement>, numberInput: boolean = false) => {
     if (this.data !== null) {
-      this.data[target] = e.target.value;
+      !numberInput ? this.data[target] = e.target.value : this.data[target] = (Number(e.target.value));
       this.setState({data: this.data})
     }
   }
@@ -36,7 +36,7 @@ class AccountEditModal extends React.Component
     if (this.data === null && this.props.accountStore.getSelectedAccount !== null) {
       this.data = {
         id: this.props.accountStore.getSelectedAccount.id,
-        balance: this.props.accountStore.getSelectedAccount.balance,
+        startingBalance: this.props.accountStore.getSelectedAccount.startingBalance,
         accountName: this.props.accountStore.getSelectedAccount.accountName,
         bankName: this.props.accountStore.getSelectedAccount.bankName,
         colour: this.props.accountStore.getSelectedAccount.colour,
@@ -99,6 +99,22 @@ class AccountEditModal extends React.Component
                 </div>
               </div>
               <div className="field">
+                <label className="label">Starting balance</label>
+                <div className="control has-icons-left has-icons-right">
+                  <input className="input is-success" type="number"
+                    placeholder="0.00"
+                    value={data.startingBalance}
+                    onChange={(e) => this.handleDataUpdate('startingBalance', e, true)}
+                  />
+                  <span className="icon is-small is-left">
+                    <i className="fa fa-money"></i>
+                  </span>
+                  <span className="icon is-small is-right">
+                    <i className="fa fa-eur"></i>
+                  </span>
+                </div>
+              </div>
+              <div className="field">
                 <label className="label">Account colour</label>
                 <div className="control has-icons-left has-addons has-icons-right">
                   <input readOnly={true} className="input is-success" type="text" placeholder="Account colour"
@@ -154,7 +170,7 @@ class AccountEditModal extends React.Component
 
   // Close modal by unselecting the current account
   closeModal(account: Account, save: boolean = false) {
-    if (save && this.data) {
+    if (save && this.data && this.validateData(this.data)) {
       if (this.data.id === '-') {
         this.props.accountStore.editAccount(account, this.data);
         this.props.accountStore.addNewAccount(account);
@@ -162,8 +178,21 @@ class AccountEditModal extends React.Component
         this.props.accountStore.editAccount(account, this.data);
       }
     }
-    this.data = null;
-    this.props.accountStore.selectAccount(account);
+    if (save && this.data && !this.validateData(this.data)) {
+      // Error handling
+    } else {
+      this.data = null;
+      this.props.accountStore.selectAccount(account);
+    }
+  }
+
+  validateData(data: AccountProps): boolean {
+    if (data.startingBalance.toString() === '') {
+      data.startingBalance = 0;
+    }
+    return (
+      data.accountName !== '' && data.bankName !== '' && data.colour !== '' && data.startingBalance >= 0
+    );
   }
 
 }
