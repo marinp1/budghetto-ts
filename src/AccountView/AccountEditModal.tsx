@@ -5,16 +5,16 @@ import { Account, AccountProps, ObservableAccountStore} from './AccountStore';
 
 @observer
 class AccountEditModal extends React.Component
-  <{accountStore: ObservableAccountStore}, {colorPickerVisible: boolean}> {
+  <{accountStore: ObservableAccountStore}, {colorPickerVisible: boolean, data: null | AccountProps}> {
 
-  data: null | AccountProps = null;
   newColor: string;
-  colorPickerVisible: false;
+  data: null | AccountProps = null;
 
   constructor(props: {accountStore: ObservableAccountStore}) {
     super(props);
     this.state = {
       colorPickerVisible: false,
+      data: null,
     }
   }
 
@@ -22,9 +22,15 @@ class AccountEditModal extends React.Component
     this.newColor = color.hex;
   };
 
+  handleDataUpdate = (target: string, e: React.ChangeEvent<HTMLInputElement>) => {
+    if (this.data !== null) {
+      this.data[target] = e.target.value;
+      this.setState({data: this.data})
+    }
+  }
+
   componentWillUpdate() {
-    if ((this.data === null && this.props.accountStore.getSelectedAccount !== null)
-        || (this.props.accountStore.getSelectedAccount && this.data && this.props.accountStore.getSelectedAccount.id !== this.data.id)) {
+    if (this.data === null && this.props.accountStore.getSelectedAccount !== null) {
       this.data = {
         id: this.props.accountStore.getSelectedAccount.id,
         balance: this.props.accountStore.getSelectedAccount.balance,
@@ -32,6 +38,7 @@ class AccountEditModal extends React.Component
         bankName: this.props.accountStore.getSelectedAccount.bankName,
         colour: this.props.accountStore.getSelectedAccount.colour,
       }
+      this.setState({data: this.data})
     }
   }
 
@@ -59,7 +66,11 @@ class AccountEditModal extends React.Component
               <div className="field">
                 <label className="label">Bank name</label>
                 <div className="control has-icons-left has-icons-right">
-                  <input className="input is-success" type="text" placeholder="Bank name" defaultValue={data.bankName}/>
+                  <input className="input is-success" type="text"
+                    placeholder="Bank name"
+                    value={data.bankName}
+                    onChange={(e) => this.handleDataUpdate('bankName', e)}
+                  />
                   <span className="icon is-small is-left">
                     <i className="fa fa-university"></i>
                   </span>
@@ -71,7 +82,11 @@ class AccountEditModal extends React.Component
               <div className="field">
                 <label className="label">Account name</label>
                 <div className="control has-icons-left has-icons-right">
-                  <input className="input is-success" type="text" placeholder="Account name" defaultValue={data.accountName}/>
+                  <input className="input is-success" type="text"
+                    placeholder="Account name"
+                    value={data.accountName}
+                    onChange={(e) => this.handleDataUpdate('accountName', e)}
+                  />
                   <span className="icon is-small is-left">
                     <i className="fa fa-credit-card"></i>
                   </span>
@@ -124,7 +139,7 @@ class AccountEditModal extends React.Component
     if (this.data && save) {
       this.data.colour = this.newColor;
     }
-    this.setState({colorPickerVisible: visibility});
+    this.setState({data: this.data, colorPickerVisible: visibility});
   }
 
   // Close modal by unselecting the current account
@@ -132,6 +147,7 @@ class AccountEditModal extends React.Component
     if (save && this.data) {
       this.props.accountStore.editAccount(account, this.data);
     }
+    this.data = null;
     this.props.accountStore.selectAccount(account);
   }
 
