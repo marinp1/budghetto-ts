@@ -16,7 +16,7 @@ const NavbarBrandTitle = glamorous.h6({
   ':active': {
     color: '#333',
   },
-})
+});
 
 const NavbarLinkElement = glamorous.a({
   cursor: 'pointer',
@@ -28,13 +28,13 @@ const NavbarLinkElement = glamorous.a({
   ':active': {
     color: '#333 !important',
   },
-})
+});
 
 const Navbar = () => (
   <NavbarElement className="navbar" role="navigation" aria-label="main navigation">
     <div className="navbar-brand">
       <NavbarLinkElement className="navbar-item" href={paths.home}>
-        <div style={{display: 'flex'}}>
+        <div style={{ display: 'flex' }}>
           <img src="./logo_round.png"
               alt="Budghetto"
               width="auto" height="100%"/>

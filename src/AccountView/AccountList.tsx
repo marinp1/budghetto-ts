@@ -4,7 +4,8 @@ import { Account, ObservableAccountStore } from './AccountStore';
 import { AccountComponent } from './AccountComponent';
 
 @observer
-class AccountList extends React.Component<{accountStore: ObservableAccountStore, screenWidth: number}, {}> {
+class AccountList extends React.Component
+  <{accountStore: ObservableAccountStore, screenWidth: number}, {}> {
 
   constructor(props: {accountStore: ObservableAccountStore, screenWidth: number}) {
     super(props);
@@ -16,21 +17,21 @@ class AccountList extends React.Component<{accountStore: ObservableAccountStore,
   }
 
   render() {
-      return (
-        <div className="columns is-multiline">
-          {this.props.accountStore.getAccounts.map((account) => {
-            return <AccountComponent
-              key={account.id}
-              account={account}
-              handleAccountClick={this.handleAccountClick}
-              screenWidth={this.props.screenWidth}
-              selected={this.props.accountStore.getSelectedAccount === account}
-            />
-          })}
-        </div>
-      );
-    }
-};
+    return (
+      <div className="columns is-multiline">
+        {this.props.accountStore.getAccounts.map((account) => {
+          return <AccountComponent
+            key={account.id}
+            account={account}
+            handleAccountClick={this.handleAccountClick}
+            screenWidth={this.props.screenWidth}
+            selected={this.props.accountStore.getSelectedAccount === account}
+          />;
+        })}
+      </div>
+    );
+  }
+}
 
 export default AccountList;
 

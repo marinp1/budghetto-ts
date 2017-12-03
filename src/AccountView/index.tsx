@@ -1,5 +1,4 @@
 import * as React from 'react';
-import glamorous from 'glamorous';
 import Navbar from '../Navbar';
 import { ObservableAccountStore } from './AccountStore';
 import { observer } from 'mobx-react';
@@ -7,12 +6,8 @@ import AccountList from './AccountList';
 import AccountEditModal from './AccountEditModal';
 import NewAccountButton from './NewAccountButton';
 
-const Container = glamorous.div({
-
-});
-
 interface AccountViewState {
-  screenWidth: number,
+  screenWidth: number;
 }
 
 const observableAccountStore = new ObservableAccountStore();
@@ -24,7 +19,7 @@ class AccountView extends React.Component<{}, AccountViewState> {
     super(props);
     this.state = {
       screenWidth: 0,
-    }
+    };
     this.updateWindowDimensions = this.updateWindowDimensions.bind(this);
   }
 
@@ -46,20 +41,31 @@ class AccountView extends React.Component<{}, AccountViewState> {
       <div>
         <Navbar/>
         <div>
-          <AccountEditModal screenWidth={this.state.screenWidth} accountStore={observableAccountStore}/>
-          <Container className="section">
+          <AccountEditModal
+            screenWidth={this.state.screenWidth}
+            accountStore={observableAccountStore}
+          />
+          <div className="section">
             <div className="container">
               <div>
-                <h1 className="title is-4" style={{display: 'inline-block', margin: 0}}>Accounts</h1>
-                <NewAccountButton screenWidth={this.state.screenWidth} accountStore={observableAccountStore}/>
+                <h1 className="title is-4" style={{ display: 'inline-block', margin: 0 }}>
+                  Accounts
+                </h1>
+                <NewAccountButton
+                  screenWidth={this.state.screenWidth}
+                  accountStore={observableAccountStore}
+                />
               </div>
               <hr></hr>
-              <AccountList accountStore={observableAccountStore} screenWidth={this.state.screenWidth}/>
+              <AccountList
+                accountStore={observableAccountStore}
+                screenWidth={this.state.screenWidth}
+              />
             </div>
-          </Container>
+          </div>
         </div>
       </div>
-    )
+    );
   }
 }
 

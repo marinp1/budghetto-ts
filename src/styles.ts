@@ -4,7 +4,7 @@ export const breakpoints = {
   desktop: 1024,
   widescreen: 1216,
   fullhd: 1408,
-}
+};
 
 export const mediaQueries = {
   xsmobile: `@media (max-width: ${breakpoints.mobile - 1}px)`,
@@ -13,4 +13,4 @@ export const mediaQueries = {
   desktop: `@media (min-width: ${breakpoints.desktop}px)`,
   widescreen: `@media (min-width: ${breakpoints.widescreen}px)`,
   fullhd: `@media (min-width: ${breakpoints.fullhd}px)`,
-}
+};

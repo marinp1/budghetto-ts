@@ -1,16 +1,16 @@
-import * as React from "react";
-import glamorous from "glamorous";
+import * as React from 'react';
+import glamorous from 'glamorous';
 
 const Container = glamorous.section({
   background: `url("./bg.jpg")`,
-  backgroundSize: "cover",
+  backgroundSize: 'cover',
 });
 
 const FileUploadButton = () => (
   <div className="file">
     <label className="file-label">
       <input className="file-input" type="file" name="resume"/>
-      <span className="file-cta" style={{backgroundColor: "white"}}>
+      <span className="file-cta" style={{ backgroundColor: 'white' }}>
         <span className="file-icon">
           <i className="fa fa-upload"></i>
         </span>
@@ -20,20 +20,20 @@ const FileUploadButton = () => (
       </span>
     </label>
   </div>
-)
+);
 
 const WelcomeScreen = () => (
   <Container className="hero is-fullheight">
     <div className="hero-body">
       <div className="container">
-        <h1 className="title is-2 is-spaced" style={{letterSpacing: '6px'}}>
+        <h1 className="title is-2 is-spaced" style={{ letterSpacing: '6px' }}>
           BUDGHETTO
         </h1>
         <h2 className="subtitle is-5">
           Start by loading a budget file or creating a new one:
         </h2>
         <div className="columns">
-          <div className="column" style={{flexGrow: 0}}>
+          <div className="column" style={{ flexGrow: 0 }}>
             <FileUploadButton/>
           </div>
           <div className="column">

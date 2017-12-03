@@ -2,7 +2,8 @@ import * as React from 'react';
 import { breakpoints } from '../styles';
 import { Account, ObservableAccountStore } from './AccountStore';
 
-class NewAccountButton extends React.Component<{accountStore: ObservableAccountStore, screenWidth: number}> {
+class NewAccountButton extends React.Component
+  <{accountStore: ObservableAccountStore, screenWidth: number}> {
 
   handleClick = () => {
     // Bit hacky way to do this with reusing editing modal
@@ -12,7 +13,7 @@ class NewAccountButton extends React.Component<{accountStore: ObservableAccountS
 
   render() {
     return (
-      <a className="button" style={{float: 'right'}} onClick={() => this.handleClick()}>
+      <a className="button" style={{ float: 'right' }} onClick={() => this.handleClick()}>
         <span className="icon">
           <i className="fa fa-plus"></i>
         </span>

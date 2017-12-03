@@ -1,6 +1,6 @@
-import mobx, { observable, computed } from 'mobx';
+import * as mobx from 'mobx';
 
-const accountData: Array<AccountProps> = [
+const accountData: AccountProps[] = [
   {
     id:'Nordea-Nordea',
     accountName: 'Nordea',
@@ -22,15 +22,15 @@ const accountData: Array<AccountProps> = [
     colour: '#FF0000',
     startingBalance: 200.43,
   },
-]
+];
 
 export interface AccountProps {
-  id: string,
-  accountName: string,
-  bankName: string,
-  colour: string,
-  startingBalance: number,
-  // TODO: Add creation date,
+  id: string;
+  accountName: string;
+  bankName: string;
+  colour: string;
+  startingBalance: number;
+  // TODO: Add creation date
 }
 
 
@@ -52,8 +52,8 @@ export class Account implements AccountProps {
 }
 
 export class ObservableAccountStore {
-  @observable accounts: Array<Account> = [];
-  @observable selectedAccount: Account | null = null;
+  @mobx.observable accounts: Account[] = [];
+  @mobx.observable selectedAccount: Account | null = null;
 
   constructor() {
     mobx.autorun(() => {
@@ -63,21 +63,21 @@ export class ObservableAccountStore {
     });
   }
 
-	@computed get getAccounts() {
+  @mobx.computed get getAccounts() {
     return this.accounts;
   }
 
-	@computed get getSelectedAccount() {
+  @mobx.computed get getSelectedAccount() {
     return this.selectedAccount;
   }
 
   addAccount(accountName: string, bankName: string, colour: string, startingBalance: number) {
     this.accounts.push({
-      id: bankName + '-' + accountName,
       accountName,
       bankName,
       colour,
       startingBalance,
+      id: bankName + '-' + accountName,
     });
   }
 
