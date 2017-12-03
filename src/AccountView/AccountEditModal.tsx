@@ -57,6 +57,7 @@ class AccountEditModal extends React.Component
     const colorPickerVisible = this.state.colorPickerVisible ? "modal is-active" : "modal";
     const account = this.props.accountStore.getSelectedAccount;
     const data = this.data;
+    const modalTitle = account.id === '-' ? 'New account' : 'Edit account';
     
     return (
       <div>
@@ -64,7 +65,7 @@ class AccountEditModal extends React.Component
         <div className="modal-background"></div>
         <div className="modal-card">
           <header className="modal-card-head">
-            <p className="modal-card-title">Edit account</p>
+            <p className="modal-card-title">{modalTitle}</p>
             <button className="delete" aria-label="close" onClick={() => this.closeModal(account)}></button>
           </header>
           <section className="modal-card-body">
