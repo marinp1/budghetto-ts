@@ -50,7 +50,7 @@ class AccountView extends React.Component<{}, AccountViewState> {
           <Container className="section">
             <div className="container">
               <div>
-                <h1 className="title is-4" style={{display: 'inline-block'}}>Accounts</h1>
+                <h1 className="title is-4" style={{display: 'inline-block', margin: 0}}>Accounts</h1>
                 <NewAccountButton screenWidth={this.state.screenWidth} accountStore={observableAccountStore}/>
               </div>
               <hr></hr>
