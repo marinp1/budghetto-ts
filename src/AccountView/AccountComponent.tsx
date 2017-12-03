@@ -8,8 +8,9 @@ const Bar = glamorous.div({
   height: '100%',
   display: 'inline-block',
   position: 'absolute',
-  top: 0,
-  left: 0,
+  top: '-1px',
+  left: '-1px',
+  padding: '1px',
   borderTopLeftRadius: 'inherit',
   borderBottomLeftRadius: 'inherit',
 })
@@ -20,9 +21,9 @@ const CenteredFlexbox = glamorous.div({
   justifyContent: 'center',
   height: '100%',
   position: 'absolute',
+  marginRight: '20px',
   top: 0,
   right: 0,
-  marginRight: '20px',
 })
 
 const MainTile = glamorous.div({
@@ -60,7 +61,15 @@ export class AccountComponent extends React.Component
 
     return (
       <MainTile className={classNames} onClick={() => this.props.handleAccountClick(this.props.account)}>
-        <div className="box" style={{background: backgroundColor, position: 'relative', paddingTop: '0.75rem', paddingBottom: '0.75rem', border}}>
+        <div className="box"
+          style={{
+            background: backgroundColor,
+            position: 'relative',
+            paddingTop: '0.75rem',
+            paddingBottom: '0.75rem',
+            boxSizing: 'content-box',
+            border
+          }}>
           <Bar style={{background: barColour}}></Bar>
           <div style={{display: 'inline-block', marginLeft: '15px'}}>
             <b style={{color: fontColour}}>{this.props.account.accountName}</b>

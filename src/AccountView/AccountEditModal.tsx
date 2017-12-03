@@ -107,7 +107,14 @@ class AccountEditModal extends React.Component
                   <span className="icon is-small is-left">
                     <i className="fa fa-paint-brush"></i>
                   </span>
-                  <span className="icon is-small is-right" style={{borderRadius: '0 3px 3px 0', background: data.colour}}/>
+                  <span className="icon is-small is-right"
+                    style={{
+                      borderRadius: '0 2px 2px 0',
+                      background: data.colour,
+                      margin: '1px',
+                      height: '34px',
+                    }}
+                  />
                 </div>
               </div>
             </div>
