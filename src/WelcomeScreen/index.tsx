@@ -1,5 +1,6 @@
 import * as React from 'react';
 import glamorous from 'glamorous';
+import { createDatabase, exportDatabase } from '../database/db';
 
 const Container = glamorous.section({
   background: `url("./bg.jpg")`,
@@ -22,6 +23,32 @@ const FileUploadButton = () => (
   </div>
 );
 
+const CreateNewButton = () => {
+
+  function handleClick(e: React.MouseEvent<HTMLAnchorElement>) {
+    e.preventDefault();
+    // Display loading somewhere
+    createDatabase().then((res) => {
+      if (res) {
+        console.log('Continue');
+        exportDatabase();
+      } else {
+        console.log(`Don't continue`);
+      }
+    });
+  }
+
+  return (
+    <a className="button" onClick={e => handleClick(e)}>
+      <span className="icon is-small">
+        <i className="fa fa-plus"></i>
+      </span>
+      <span>Create new file</span>
+    </a>
+  );
+};
+
+
 const WelcomeScreen = () => (
   <Container className="hero is-fullheight">
     <div className="hero-body">
@@ -37,12 +64,7 @@ const WelcomeScreen = () => (
             <FileUploadButton/>
           </div>
           <div className="column">
-            <a className="button">
-              <span className="icon is-small">
-                <i className="fa fa-plus"></i>
-              </span>
-              <span>Create new file</span>
-            </a>
+            <CreateNewButton/>
           </div>
         </div>
       </div>
