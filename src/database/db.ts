@@ -22,6 +22,7 @@ export async function createDatabase() {
   users = await db.collection({ name: 'users', schema: userSchema });
   accounts = await db.collection({ name: 'accounts', schema: accountSchema });
 
+  /*
   // TODO: Don't create any accounts here
   accounts.insert({
     id:'Nordea-Nordea',
@@ -32,6 +33,7 @@ export async function createDatabase() {
     initiationDate: '2017-08-06',
     currencyType: 'EUR',
   });
+  */
 
   database = db;
 

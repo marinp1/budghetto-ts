@@ -4,7 +4,6 @@ import { SketchPicker, ColorResult } from 'react-color';
 import { breakpoints } from '../styles';
 import { IAccount, ObservableAccountStore } from './AccountStore';
 
-
 interface InputFieldProps {
   name: string;
   sizeModifier: string;
@@ -239,14 +238,17 @@ class AccountEditModal extends React.Component
 
   // Close modal by unselecting the current account
   closeModal(account: IAccount, isNew: boolean, save: boolean = false) {
-    if (save && this.data && this.validateData(this.data)) {
+
+    const isValid = this.data && this.validateData(this.data);
+
+    if (save && this.data && isValid) {
       if (isNew) {
         this.props.accountStore.addNewAccount(this.data);
       } else {
         this.props.accountStore.editAccount(account.id, this.data);
       }
     }
-    if (save && this.data && !this.validateData(this.data)) {
+    if (save && this.data && !isValid) {
       // Error handling
     } else {
       this.data = null;
@@ -267,6 +269,13 @@ class AccountEditModal extends React.Component
     data.name = data.name.trim();
     data.bankName = data.bankName.trim();
     data.colour = data.colour.trim();
+
+    if (this.props.accountStore.checkIfAlreadyExists(data.name, data.bankName)) {
+      // TODO: Add react toast instead
+      console.log('Account with name and bank name already exists.');
+      return false;
+    }
+
     return (
       data.name !== '' && data.bankName !== '' &&
       data.colour !== '' && data.startingBalance >= 0

@@ -43,6 +43,13 @@ export class ObservableAccountStore {
     });
   }
 
+  checkIfAlreadyExists(name: string, bankName: string): boolean {
+    return this.accounts.find((e: IAccount) => {
+      return e.bankName.toLowerCase() === bankName.toLowerCase()
+      && e.name.toLowerCase() === name.toLowerCase();
+    }) !== undefined;
+  }
+
   @mobx.computed get getAccounts(): IAccount[] {
     return this.accounts;
   }
