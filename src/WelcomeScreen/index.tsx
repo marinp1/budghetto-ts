@@ -1,6 +1,5 @@
 import * as React from 'react';
 import glamorous from 'glamorous';
-import { createDatabase, exportDatabase } from '../database/db';
 
 const Container = glamorous.section({
   background: `url("./bg.jpg")`,
@@ -26,16 +25,7 @@ const FileUploadButton = () => (
 const CreateNewButton = () => {
 
   function handleClick(e: React.MouseEvent<HTMLAnchorElement>) {
-    e.preventDefault();
-    // Display loading somewhere
-    createDatabase().then((res) => {
-      if (res) {
-        console.log('Continue');
-        exportDatabase();
-      } else {
-        console.log(`Don't continue`);
-      }
-    });
+    // Change page
   }
 
   return (

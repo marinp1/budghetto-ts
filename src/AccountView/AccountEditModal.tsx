@@ -85,7 +85,6 @@ class AccountEditModal extends React.Component
         startingBalance: this.props.accountStore.getSelectedAccount.startingBalance,
         name: this.props.accountStore.getSelectedAccount.name,
         bankName: this.props.accountStore.getSelectedAccount.bankName,
-        vCardName: this.props.accountStore.getSelectedAccount.vCardName,
         colour: this.props.accountStore.getSelectedAccount.colour,
         initiationDate: this.props.accountStore.getSelectedAccount.initiationDate,
         currencyType: this.props.accountStore.getSelectedAccount.currencyType,
@@ -136,7 +135,7 @@ class AccountEditModal extends React.Component
                 sizeModifier={sizeModifier}
                 value={data.name}
                 placeholder={'Account name'}
-                dataId={'accountName'}
+                dataId={'name'}
                 leftIcon={'fa-credit-card'}
                 rightIcon={'fa-check'}
                 onChange={this.handleDataUpdate}
@@ -181,7 +180,7 @@ class AccountEditModal extends React.Component
             <div className="field is-grouped" style={{ width: '100%' }}>
               <p className="control">
                 <a className={'button is-success' + sizeModifier}
-                   onClick={() => this.closeModal(account, true)}>
+                   onClick={() => this.closeModal(account, isNewAccountModal, true)}>
                   Save changes
                 </a>
               </p>

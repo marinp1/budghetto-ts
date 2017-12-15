@@ -1,47 +1,34 @@
+import { accounts } from './../database/db';
 import * as mobx from 'mobx';
-
-const accountData: IAccount[] = [
-  {
-    id:'Nordea-Nordea',
-    name: 'Nordea',
-    bankName: 'Nordea',
-    vCardName: null,
-    colour: '#0000FF',
-    startingBalance: 432,
-    initiationDate: '2017-08-06',
-    currencyType: 'EUR',
-  },
-  {
-    id:'Osuuspankki-Säästötili',
-    name: 'Säästötili',
-    bankName: 'Osuuspankki',
-    vCardName: null,
-    colour: '#FF0000',
-    startingBalance: 10222,
-    initiationDate: '2017-08-06',
-    currencyType: 'EUR',
-  },
-  {
-    id:'Osuuspankki-Käyttötili',
-    name: 'Käyttötili',
-    bankName: 'Osuuspankki',
-    vCardName: null,
-    colour: '#FF0000',
-    startingBalance: 200.43,
-    initiationDate: '2017-08-06',
-    currencyType: 'EUR',
-  },
-];
 
 export interface IAccount {
   id: string;
   name: string;
   bankName: string;
-  vCardName: string | null;
+  colour: string;
+  startingBalance: number;
+  initiationDate: string; // Should be a moment
+  currencyType: string;
+}
+
+interface IAccountDB {
+  id: string;
+  name: string;
+  bankName: string;
   colour: string;
   startingBalance: number;
   initiationDate: string;
   currencyType: string;
+}
+
+function parseDBToAccount(data: IAccountDB): IAccount {
+  // TODO: Change string to moment
+  return data;
+}
+
+function parseAccountToDB(data: IAccount): IAccountDB {
+  // TODO: Change moment to string
+  return data;
 }
 
 export class ObservableAccountStore {
@@ -49,13 +36,11 @@ export class ObservableAccountStore {
   @mobx.observable selectedAccount: IAccount | undefined = undefined;
 
   constructor() {
-    // TODO: Read data from database
     mobx.autorunAsync(() => {
-      accountData.map((data: IAccount) => {
-        this.accounts.push(data);
+      accounts.find().$.subscribe((data: IAccount[]) => {
+        !data ? this.accounts = [] : this.accounts = data.map(_ => parseDBToAccount(_));
       });
     });
-    console.log(this.accounts);
   }
 
   @mobx.computed get getAccounts(): IAccount[] {
@@ -67,7 +52,9 @@ export class ObservableAccountStore {
   }
 
   addNewAccount(data: IAccount) {
-    // TODO: add account to database
+    accounts.insert(parseAccountToDB(data)).then((data: IAccountDB) => {
+      console.log(`Successfully added ${data.bankName}: ${data.name}`);
+    });
   }
 
   selectAccount(account: IAccount | undefined) {
@@ -79,11 +66,29 @@ export class ObservableAccountStore {
   }
 
   editAccount(accountId: string, data: IAccount) {
-    // TODO: Update database
+    const newData: IAccountDB = parseAccountToDB(data);
+    accounts.find().where('id').equals(accountId).update({
+      $set: {
+        name: newData.name,
+        bankName: newData.bankName,
+        colour: newData.colour,
+        startingBalance: newData.startingBalance,
+        initiationDate: newData.initiationDate,
+        currencyType: newData.currencyType,
+      },
+    }).then((data: IAccountDB[]) => {
+      console.log(`Successfully updated ${data[0].bankName}: ${data[0].name}`);
+    }).catch((e) => {
+      console.log(e);
+    });
   }
 
-  deleteAccount(accountId: string): boolean {
-    // TODO: Delete from database
-    return true;
+  deleteAccount(accountId: string) {
+    this.selectAccount(undefined);
+    accounts.find().where('id').equals(accountId).remove().then((data: IAccountDB[]) => {
+      console.log(`Successfully deleted ${data[0].bankName}: ${data[0].name}`);
+    }).catch((e) => {
+      console.log(e);
+    });
   }
 }

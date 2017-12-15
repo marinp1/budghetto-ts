@@ -12,7 +12,7 @@ class NewAccountButton extends React.Component
       id: uuidv1(),
       name: '',
       bankName: '',
-      vCardName: null,
+      vCardName: '',
       colour: '',
       startingBalance: 0,
       initiationDate: '',

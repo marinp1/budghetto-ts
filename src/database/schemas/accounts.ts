@@ -16,14 +16,11 @@ const accountJSSchema: RxJsonSchema = {
     bankName: {
       type: 'string',
     },
-    vCardName: {
-      type: 'string',
-    },
     colour: {
       type: 'string',
     },
     startingBalance: {
-      type: 'integer',
+      type: 'number',
     },
     initiationDate: {
       type: 'string',
@@ -32,8 +29,6 @@ const accountJSSchema: RxJsonSchema = {
       type: 'string',
     },
   },
-  required: ['name, bankName, colour',
-    'startingBalance', 'initiationDate', 'currencyType'],
 };
 
 export const accountSchema = RxSchema.create(accountJSSchema);
