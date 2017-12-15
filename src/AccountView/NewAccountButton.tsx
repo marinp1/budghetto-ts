@@ -1,13 +1,23 @@
 import * as React from 'react';
 import { breakpoints } from '../styles';
-import { Account, ObservableAccountStore } from './AccountStore';
+import { ObservableAccountStore } from './AccountStore';
+const uuidv1 = require('uuid/v1');
 
 class NewAccountButton extends React.Component
   <{accountStore: ObservableAccountStore, screenWidth: number}> {
 
   handleClick = () => {
     // Bit hacky way to do this with reusing editing modal
-    const newAccount = new Account('', '', '' , 0);
+    const newAccount = {
+      id: uuidv1(),
+      name: '',
+      bankName: '',
+      vCardName: null,
+      colour: '',
+      startingBalance: 0,
+      initiationDate: '',
+      currencyType: '',
+    };
     this.props.accountStore.selectAccount(newAccount);
   }
 

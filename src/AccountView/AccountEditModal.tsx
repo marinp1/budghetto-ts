@@ -2,7 +2,7 @@ import * as React from 'react';
 import { observer } from 'mobx-react';
 import { SketchPicker, ColorResult } from 'react-color';
 import { breakpoints } from '../styles';
-import { Account, AccountProps, ObservableAccountStore } from './AccountStore';
+import { IAccount, ObservableAccountStore } from './AccountStore';
 
 
 interface InputFieldProps {
@@ -46,12 +46,12 @@ const InputFieldComponent = (props: InputFieldProps) => {
 @observer
 class AccountEditModal extends React.Component
   <{accountStore: ObservableAccountStore, screenWidth: number},
-   {colorPickerVisible: boolean, data: null | AccountProps}> {
+   {colorPickerVisible: boolean, data: null | IAccount}> {
 
   // Keep new color here instead of in state to avoid rerenders
   newColor: string;
   // Keep data in props and here just to avoid some unnecessary copypastes
-  data: null | AccountProps = null;
+  data: null | IAccount = null;
 
   constructor(props: {accountStore: ObservableAccountStore, screenWidth: number}) {
     super(props);
@@ -79,13 +79,16 @@ class AccountEditModal extends React.Component
     }
 
   componentWillUpdate() {
-    if (this.data === null && this.props.accountStore.getSelectedAccount !== null) {
+    if (this.data === null && this.props.accountStore.getSelectedAccount !== undefined) {
       this.data = {
         id: this.props.accountStore.getSelectedAccount.id,
         startingBalance: this.props.accountStore.getSelectedAccount.startingBalance,
-        accountName: this.props.accountStore.getSelectedAccount.accountName,
+        name: this.props.accountStore.getSelectedAccount.name,
         bankName: this.props.accountStore.getSelectedAccount.bankName,
+        vCardName: this.props.accountStore.getSelectedAccount.vCardName,
         colour: this.props.accountStore.getSelectedAccount.colour,
+        initiationDate: this.props.accountStore.getSelectedAccount.initiationDate,
+        currencyType: this.props.accountStore.getSelectedAccount.currencyType,
       };
       this.setState({ data: this.data });
     }
@@ -93,16 +96,17 @@ class AccountEditModal extends React.Component
 
   render() {
 
-    if (this.props.accountStore.getSelectedAccount === null || this.data === null) {
+    if (this.props.accountStore.getSelectedAccount === undefined || this.data === null) {
       return null;
     }
 
     const colorPickerVisible = this.state.colorPickerVisible ? 'modal is-active' : 'modal';
     const account = this.props.accountStore.getSelectedAccount;
     const data = this.data;
-    const modalTitle = account.id === '-' ? 'New account' : 'Edit account';
+    const isNewAccountModal = account.bankName.length === 0;
+    const modalTitle = isNewAccountModal ? 'New account' : 'Edit account';
     const sizeModifier = this.props.screenWidth <= breakpoints.mobile ? ' is-small' : '';
-    
+
     return (
       <div>
       <div className="modal is-active">
@@ -112,7 +116,7 @@ class AccountEditModal extends React.Component
             <p className="modal-card-title">{modalTitle}</p>
             <button
               className="delete" aria-label="close"
-              onClick={() => this.closeModal(account)}>
+              onClick={() => this.closeModal(account, isNewAccountModal)}>
             </button>
           </header>
           <section className="modal-card-body">
@@ -130,7 +134,7 @@ class AccountEditModal extends React.Component
               <InputFieldComponent
                 name={'Account name'}
                 sizeModifier={sizeModifier}
-                value={data.accountName}
+                value={data.name}
                 placeholder={'Account name'}
                 dataId={'accountName'}
                 leftIcon={'fa-credit-card'}
@@ -182,11 +186,12 @@ class AccountEditModal extends React.Component
                 </a>
               </p>
               <p className="control">
-                <a className={'button' + sizeModifier} onClick={() => this.closeModal(account)}>
+                <a className={'button' + sizeModifier}
+                   onClick={() => this.closeModal(account, isNewAccountModal)}>
                   Cancel
                 </a>
               </p>
-              {account.id !== '-' &&
+              {!isNewAccountModal &&
               <p className="control" style={{ marginLeft: 'auto' }}>
                 <a className={'button is-danger' + sizeModifier}
                    onClick={() => this.deleteAndClose(account)}>
@@ -234,37 +239,37 @@ class AccountEditModal extends React.Component
   }
 
   // Close modal by unselecting the current account
-  closeModal(account: Account, save: boolean = false) {
+  closeModal(account: IAccount, isNew: boolean, save: boolean = false) {
     if (save && this.data && this.validateData(this.data)) {
-      if (this.data.id === '-') {
-        this.props.accountStore.editAccount(account, this.data);
-        this.props.accountStore.addNewAccount(account);
+      if (isNew) {
+        this.props.accountStore.addNewAccount(this.data);
       } else {
-        this.props.accountStore.editAccount(account, this.data);
+        this.props.accountStore.editAccount(account.id, this.data);
       }
     }
     if (save && this.data && !this.validateData(this.data)) {
       // Error handling
     } else {
       this.data = null;
-      this.props.accountStore.selectAccount(account);
+      this.props.accountStore.selectAccount(undefined);
     }
   }
 
-  deleteAndClose(account: Account) {
+  deleteAndClose(account: IAccount) {
     this.data = null;
-    this.props.accountStore.deleteAccount(account);
+    this.props.accountStore.deleteAccount(account.id);
   }
 
-  validateData(data: AccountProps): boolean {
+  // TODO: Fix validation
+  validateData(data: IAccount): boolean {
     if (data.startingBalance.toString() === '') {
       data.startingBalance = 0;
     }
-    data.accountName = data.accountName.trim();
+    data.name = data.name.trim();
     data.bankName = data.bankName.trim();
     data.colour = data.colour.trim();
     return (
-      data.accountName !== '' && data.bankName !== '' &&
+      data.name !== '' && data.bankName !== '' &&
       data.colour !== '' && data.startingBalance >= 0
     );
   }

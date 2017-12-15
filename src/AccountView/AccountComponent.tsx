@@ -1,7 +1,7 @@
 import * as React from 'react';
 import glamorous from 'glamorous';
 import { breakpoints } from '../styles';
-import { Account } from './AccountStore';
+import { IAccount } from './AccountStore';
 
 const Bar = glamorous.div({
   width: '20px',
@@ -34,9 +34,9 @@ const MainTile = glamorous.div({
 });
 
 export class AccountComponent extends React.Component
-  < {account: Account,
+  < {account: IAccount,
     screenWidth: number,
-    handleAccountClick: (account: Account) => void,
+    handleAccountClick: (account: IAccount) => void,
     selected: boolean}
   > {
 
@@ -47,7 +47,7 @@ export class AccountComponent extends React.Component
     const border = this.props.selected
       ? `1px solid ${barColour}`
       : '1px solid transparent';
-    
+
     let classNames = 'column ';
     if (this.props.screenWidth >= breakpoints.widescreen) {
       classNames += 'is-3';
@@ -73,7 +73,7 @@ export class AccountComponent extends React.Component
           }}>
           <Bar style={{ background: barColour }}></Bar>
           <div style={{ display: 'inline-block', marginLeft: '15px' }}>
-            <b style={{ color: fontColour }}>{this.props.account.accountName}</b>
+            <b style={{ color: fontColour }}>{this.props.account.name}</b>
             <p className="subtitle is-6" style={{ color: fontColour }}>
               {this.props.account.bankName}
             </p>

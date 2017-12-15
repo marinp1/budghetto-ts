@@ -10,9 +10,6 @@ const accountJSSchema: RxJsonSchema = {
       type: 'string',
       primary: true,
     },
-    userId: {
-      type: 'string',
-    },
     name: {
       type: 'string',
     },
@@ -35,7 +32,7 @@ const accountJSSchema: RxJsonSchema = {
       type: 'string',
     },
   },
-  required: ['userId, name, bankName, colour',
+  required: ['name, bankName, colour',
     'startingBalance', 'initiationDate', 'currencyType'],
 };
 
